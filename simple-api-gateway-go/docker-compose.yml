@@ -1,0 +1,63 @@
+services:
+  api-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_PATH: ./cmd/server
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      GATEWAY_PORT: 8080
+      JWT_SECRET: dev-secret-key
+      AUTH_SERVICE_URL: http://auth-service:8081
+      USER_SERVICE_URL: http://user-service:8082
+      INVENTORY_SERVICE_URL: http://inventory-service:8083
+      PAYMENT_SERVICE_URL: http://payment-service:8084
+    depends_on:
+      - auth-service
+      - user-service
+      - inventory-service
+      - payment-service
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_PATH: ./mock-services/auth-service
+    container_name: auth-service
+    environment:
+      AUTH_SERVICE_PORT: 8081
+      JWT_SECRET: dev-secret-key
+
+  user-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_PATH: ./mock-services/user-service
+    container_name: user-service
+    environment:
+      USER_SERVICE_PORT: 8082
+
+  inventory-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_PATH: ./mock-services/inventory-service
+    container_name: inventory-service
+    environment:
+      INVENTORY_SERVICE_PORT: 8083
+
+  payment-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        APP_PATH: ./mock-services/payment-service
+    container_name: payment-service
+    environment:
+      PAYMENT_SERVICE_PORT: 8084
