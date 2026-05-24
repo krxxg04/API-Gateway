@@ -20,14 +20,14 @@ function Start-Gateway {
 }
 
 function Stop-Gateway {
-    param([int]$Pid)
+    param([int]$ProcessId)
 
-    if ($Pid -gt 0) {
+    if ($ProcessId -gt 0) {
         try {
-            Stop-Process -Id $Pid -Force -ErrorAction Stop
-            Write-Host "[$(Get-Date -Format o)] Proceso detenido (PID: $Pid)."
+            Stop-Process -Id $ProcessId -Force -ErrorAction Stop
+            Write-Host "[$(Get-Date -Format o)] Proceso detenido (PID: ${ProcessId})."
         } catch {
-            Write-Host "[$(Get-Date -Format o)] No se pudo detener PID $Pid: $($_.Exception.Message)"
+            Write-Host "[$(Get-Date -Format o)] No se pudo detener PID ${ProcessId}: $($_.Exception.Message)"
         }
     }
 }
