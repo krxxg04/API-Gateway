@@ -56,9 +56,9 @@ while ($true) {
 
         $proc = Get-GatewayProcess
         if ($proc) {
-            Stop-Gateway -Pid $proc.ProcessId
+            Stop-Gateway -ProcessId $proc.ProcessId
         } elseif ($currentPid) {
-            Stop-Gateway -Pid $currentPid
+            Stop-Gateway -ProcessId $currentPid
         }
 
         $restarted = Start-Gateway
